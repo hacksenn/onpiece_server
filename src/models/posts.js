@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'postId',
       });
       this.belongsTo(models.Users, { foreignKey: 'userId' });
-      this.belongsTo(models.Categories, { foreignKey: 'categoryId' });
     }
   }
   Posts.init(
@@ -34,15 +33,6 @@ module.exports = (sequelize, DataTypes) => {
         references: {
           model: 'Users',
           key: 'userId',
-        },
-        allowNull: false,
-        onDelete: 'cascade',
-      },
-      categoryId: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'Categories',
-          key: 'categoryId',
         },
         allowNull: false,
         onDelete: 'cascade',
@@ -65,6 +55,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 1,
+      },
+      category: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       recruitmentEndDay: {
         type: DataTypes.INTEGER,

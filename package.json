@@ -18,6 +18,7 @@
     "db:drop": "npx sequelize db:drop --config ./src/config/config.js"
   },
   "devDependencies": {
+    "prettier": "2.8.1",
     "sequelize-cli": "^6.5.2"
   }
 }
