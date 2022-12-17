@@ -10,7 +10,8 @@ app.use(express.json());
 
 app.use('/api', require('./routes/index'));
 
-app.use(ErrorHandler, require('./middleWares/error.handler.middleware'))
+const ErrorHandler = require('./middleWares/error.handler.middleware')
+app.use(ErrorHandler)
 
 
 app.listen(port, () => {

@@ -5,15 +5,25 @@ const CommentController = require('../controllers/comment.controller');
 const commentController = new CommentController()
 
 //==================================
-//
-//            댓글 작성
-//
+//             댓글 수정
+//==================================
+router.put('/comments/:commentId', commentController.UpdateComment)
+
+//==================================
+//             댓글 삭제
+//==================================
+router.delete("/comments/:commentId", commentController.DeleteComment);
+
+//==================================
+//             댓글 작성
 //==================================
 router.post('/:postId/comments', commentController.CreateComment)
 
 //==================================
-//
-//            댓글 수정
-//
+//             댓글 조회
 //==================================
-router.post('/comments/:commentId', commentController.UpdateComment)
+router.get("/:postId/comments", commentController.FindAllComment);
+
+
+
+module.exports = router
