@@ -3,14 +3,16 @@ const CommentRepository = require("../repositories/comment.repository");
 class CommentService {
     commentRepository = new CommentRepository();
 
-    findOneUser = async (userId) => {
-        const user = await this.commentRepository.findOneUser(userId)
-        if(!user || user.length === 0){
-            throw new ValidationError(
-                '유저 정보를 찾을 수 없습니다.', 412
-            )
+    CreateComment = async (postId, userId, comment) => {
+        const post = await this.postRepository.FindPostOne(postId);
+        if (post == null || post.length === 0 || !userId) {
+          throw "PostingDataError";
         }
-    }
+        if (!comment) {
+          throw "ExistComment";
+        }
+        return this.commentRepository.CreateComment(postId, userId, comment);
+      };
 
 }
 
