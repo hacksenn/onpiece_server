@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "cli": "^1.0.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.20",
+    "sequelize": "^6.27.0",
+    "sequelize-cli": "^6.5.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon src/app.js",
+    "db:create": "npx sequelize db:create --config ./src/config/config.js",
+    "db:migrate": "npx sequelize db:migrate --config ./src/config/config.js --migrations-path ./src/migrations --models-path ./src/models",
+    "db:drop": "npx sequelize db:drop --config ./src/config/config.js"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.5.2"
+  }
+}
