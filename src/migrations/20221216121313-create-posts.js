@@ -18,15 +18,6 @@ module.exports = {
         allowNull: false,
         onDelete: 'cascade',
       },
-      categoryId: {
-        type: Sequelize.DataTypes.INTEGER,
-        references: {
-          model: 'Categories',
-          key: 'categoryId',
-        },
-        allowNull: false,
-        onDelete: 'cascade',
-      },
       title: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
@@ -45,6 +36,10 @@ module.exports = {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 1,
+      },
+      categoryId: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
       },
       recruitmentEndDay: {
         type: Sequelize.DataTypes.INTEGER,
