@@ -18,9 +18,22 @@ class CommentRepository {
         });
     };
     FindOneComment = async (commentId) => {
-        return Comments.findOne({
+        const comment = await Comments.findOne({
             where: { commentId },
+            attributes: ['commentId', 'userId', 'comment', 'updatedAt'],
+            include: {
+                model: Users,
+                attributes: ['nickname'],
+            },
+            raw:true
         });
+        return {
+            commentId: comment.commentId,
+            userId: comment.userId,
+            nickname: comment['User.nickname'],
+            comment: comment.comment,
+            updatedAt: comment.updatedAt,
+        };
     };
     UpdateComment = async (comment, commentId) => {
         return Comments.update({ comment }, { where: { commentId } });
@@ -29,15 +42,24 @@ class CommentRepository {
         return Comments.destroy({ where: { commentId } });
     };
     FindAllComment = async (postId) => {
-        return Comments.findAll({
-            where: { postId },
+        const comments = await Comments.findAll({
             raw: true,
+            where: { postId },
+            attributes: ['commentId', 'userId', 'comment', 'updatedAt'],
+            include: {
+                model: Users,
+                attributes: ['nickname'],
+            },
         });
-    };
-    FindOneComment = async (commentId) => {
-      return Comments.findOne({
-        where: { commentId },
-      });
+        return comments.map((comment) => {
+            return {
+                commentId: comment.commentId,
+                userId: comment.userId,
+                nickname: comment['User.nickname'],
+                comment: comment.comment,
+                updatedAt: comment.updatedAt,
+            };
+        });
     };
 }
 

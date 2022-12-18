@@ -12,10 +12,10 @@ router.get("/:userId/posts", userController.FindAllUserPosts);
 //==================================
 //        신청한 스터디 목록 조회
 //==================================
-router.get("/:userId/apply", userController.FindAllUserPosts);
+router.get("/:userId/apply", userController.FindAllUserApply);
 
 //==================================
-//             댓글 조회
+//           유저 정보 조회
 //==================================
 router.get("/:userId", userController.GetUser);
 

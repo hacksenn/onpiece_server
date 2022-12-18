@@ -15,6 +15,11 @@ router.put('/comments/:commentId', commentController.UpdateComment)
 router.delete("/comments/:commentId", commentController.DeleteComment);
 
 //==================================
+//           단일 댓글 조회
+//==================================
+router.get("/comments/:commentId", commentController.FindOneComment);
+
+//==================================
 //             댓글 작성
 //==================================
 router.post('/:postId/comments', commentController.CreateComment)
@@ -23,6 +28,8 @@ router.post('/:postId/comments', commentController.CreateComment)
 //             댓글 조회
 //==================================
 router.get("/:postId/comments", commentController.FindAllComment);
+
+
 
 
 

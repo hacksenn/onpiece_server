@@ -6,8 +6,7 @@ class UserController {
 
     GetUser = async (req, res, next) => {
         try {
-            //   const { userId } = req.params;
-            const userId = 1;
+            const { userId } = req.params;
 
             const user = await this.userService.FindUser(userId);
             res.json({
@@ -20,9 +19,8 @@ class UserController {
 
     UpdateUser = async (req, res, next) => {
         try {
-            // const { userId } = req.params;
+            const { userId } = req.params;
             const { description } = req.body;
-            const userId = 1;
 
             if (!userId) {
                 throw new ValidationError('유저 권한이 없습니다.', 401);
@@ -40,8 +38,7 @@ class UserController {
 
     FindAllUserPosts = async (req, res, next) => {
         try {
-            //   const { userId } = req.params;
-            const userId = 1;
+            const { userId } = req.params;
 
             const posts = await this.userService.FindAllUserPosts(userId);
             res.json({
@@ -54,8 +51,7 @@ class UserController {
 
     FindAllUserApply = async (req, res, next) => {
         try {
-            //   const { userId } = req.params;
-            const userId = 1;
+            const { userId } = req.params;
 
             const posts = await this.userService.FindAllUserApply(userId);
             res.json({

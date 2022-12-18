@@ -42,6 +42,13 @@ class CommentService {
         }
         return comments;
     };
+    FindOneComment = async (commentId) => {
+        const comments = await this.commentRepository.FindOneComment(commentId);
+        if (comments == null || comments.length === 0) {
+            throw new InvalidParamsError('댓글을 찾을 수 없습니다.', 404);
+        }
+        return comments;
+    };
 }
 
 module.exports = CommentService;

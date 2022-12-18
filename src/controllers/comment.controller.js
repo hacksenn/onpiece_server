@@ -62,6 +62,18 @@ class CommentController {
         next(error);
       }
     };
+    FindOneComment = async (req, res, next) => {
+      try {
+        const { commentId } = req.params;
+  
+        const comments = await this.commentService.FindOneComment(commentId);
+        res.json({
+          data: comments,
+        });
+      } catch (error) {
+        next(error);
+      }
+    };
 }
 
 module.exports = CommentController;
