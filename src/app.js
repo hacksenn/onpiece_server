@@ -9,7 +9,7 @@ let corsOptions = {
 
 app.use(cors(corsOptions))
 
-require('dotenv').config('');
+require('dotenv').config();
 
 const port = process.env.PORT;
 
@@ -28,7 +28,7 @@ const ErrorHandler = require('./middleWares/error.handler.middleware');
 app.use(ErrorHandler);
 
 app.listen(port, () => {
-  console.log(port, '포트로 서버가 열렸어요!');
+    console.log(port, '포트로 서버가 열렸어요!');
 });
 
 module.exports = app;
