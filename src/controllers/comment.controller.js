@@ -15,8 +15,8 @@ class CommentController {
                 throw new ValidationError();
             }
 
-            await this.commentService.CreateComment(postId, userId, comment);
-            res.status(200).json({ message: '댓글을 생성하였습니다.' });
+            const commentId = await this.commentService.CreateComment(postId, userId, comment);
+            res.status(200).json({ commentId : commentId , message: '댓글을 생성하였습니다.' });
         } catch (error) {
             next(error);
         }
