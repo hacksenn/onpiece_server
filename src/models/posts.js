@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'postId',
       });
       this.belongsTo(models.Users, { foreignKey: 'userId' });
-      this.belongsTo(models.Categories, { foreignKey: 'categoryId' });
     }
   }
   Posts.init(

@@ -1,9 +1,8 @@
-const signupService = require("../services/signup.service");
+const SignupService = require("../services/signup.service");
 
 class SignupController {
-    constructor() {
-        this.SignupService = new signupService();
-    }
+    signupService = new SignupService();
+
 
     /**
      * @param {import("express").Request} req - express Request
@@ -13,14 +12,15 @@ class SignupController {
 
     createSignup = async (req, res) => {
         try {
-            const { email, nickname, password, confirm } = req.body;
+            const { email, nickname, password, confirm, description } = req.body;
 
-            const signup = await this.SignupService.createSignup({
+            await this.signupService.createSignup(
                 email,
                 nickname,
                 password,
-                confirm
-            });
+                confirm,
+                description
+            );
 
             console.log(`${nickname} 님이 가입하셨습니다.`);
             res.status(201).send({ message: "회원 가입에 성공하였습니다." });
@@ -30,6 +30,7 @@ class SignupController {
             res.json({ errorMessage: error.message });
         }
     };
+
 }
 
 module.exports = SignupController;

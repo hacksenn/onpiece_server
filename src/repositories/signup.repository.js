@@ -1,25 +1,22 @@
 const { Users } = require("../models");
+const { Op } = require("sequelize");
 
-class signupRepository {
-    constructor() { }
+class SignupRepository {
+  createSignup = async (email, nickname, password, description) => {
+    console.log(email, nickname, password, description)
+    return Users.create({ email, nickname, password, description });
+  };
 
-    findAllPost = async ({ }) => {
-        const Signup = await Users.findAll({});
-        return Signup;
-    };
 
-    createSignup = async ({
-        email, nickname, password, description
-    }) => {
-        const signup = await Users.create({
-            email,
-            nickname,
-            password,
-            description
-        });
-
-        return signup;
-    };
+  checkUser = async ({
+    email,
+    nickname,
+  }) => {
+    const User = await User.checkUser({
+      where: { [Op.and]: [{ email }, { nickname }] },
+    });
+    return User;
+  };
 }
-module.exports = signupRepository;
 
+module.exports = SignupRepository;

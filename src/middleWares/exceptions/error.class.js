@@ -25,4 +25,13 @@ class AuthenticationError extends Error {
     }
 }
 
-module.exports = { InvalidParamsError, ValidationError, AuthenticationError };
+class ExistError extends Error {
+    constructor(message, status) {
+        super(message);
+        this.status = status || 412;
+        this.name = 'ExistError';
+        if (!message) this.message = '중복된 정보입니다.';
+    }
+}
+
+module.exports = { InvalidParamsError, ValidationError, AuthenticationError, ExistError };
