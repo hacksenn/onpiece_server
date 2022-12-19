@@ -1,4 +1,5 @@
 const SignupService = require("../services/signup.service");
+const url = require("url");
 
 class SignupController {
     signupService = new SignupService();
@@ -30,6 +31,25 @@ class SignupController {
             res.json({ errorMessage: error.message });
         }
     };
+
+    checkUser = async (req, res) => {
+        try {
+            const queryData = url.parse(req.url, true).query;
+
+            const email = queryData.email
+            const nickname = queryData.nickname
+            console.log(email, nickname);
+
+            await this.signupService.checkUser(
+                email,
+                nickname
+            );
+            res.status(200).json({ msg: '중복검사가 완료되었습니다.' })
+        } catch (error) {
+            res.status(error.status || 412);
+            res.json({ errorMessage: error.message });
+        }
+    }
 
 }
 
