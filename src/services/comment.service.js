@@ -9,7 +9,8 @@ class CommentService {
         if (post == null || post.length === 0) {
             throw new InvalidParamsError('게시글을 찾을 수 없습니다.', 404);
         }
-        return this.commentRepository.CreateComment(postId, userId, comment);
+        const createComments = await this.commentRepository.CreateComment(postId, userId, comment);
+        return this.commentRepository.FindOneComment(createComments)
     };
     UpdateComment = async (commentId, comment, userId) => {
         const changeComment = await this.commentRepository.FindOneComment(

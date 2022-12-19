@@ -5,7 +5,7 @@ const { Comments } = require('../models');
 class CommentRepository {
     CreateComment = async (postId, userId, comment) => {
         const createComment = await Comments.create({ postId, userId, comment });
-        return createComment.dataValues
+        return createComment.dataValues.commentId
     };
     FindOnePost = async (postId) => {
         return Posts.findOne({
