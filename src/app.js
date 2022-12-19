@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 
 let corsOptions = {
-  origin: '*',      // 출처 허용 옵션
+  origin: true,      // 출처 허용 옵션 true 혹은 '*'
   credential: true, // 사용자 인증이 필요한 리소스(쿠키 등) 접근
 }
 
