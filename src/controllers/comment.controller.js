@@ -32,8 +32,8 @@ class CommentController {
                 throw new ValidationError('댓글을 작성 해주세요.', 412);
             }
 
-            await this.commentService.UpdateComment(commentId, comment, userId);
-            return res.status(200).json({ msg: '댓글을 수정하였습니다.' });
+            const updateComment = await this.commentService.UpdateComment(commentId, comment, userId);
+            return res.status(200).json(updateComment);
         } catch (error) {
             next(error);
         }

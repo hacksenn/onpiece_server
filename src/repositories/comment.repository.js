@@ -38,6 +38,7 @@ class CommentRepository {
     };
     UpdateComment = async (comment, commentId) => {
         return Comments.update({ comment }, { where: { commentId } });
+          
     };
     DeleteComment = async (commentId) => {
         return Comments.destroy({ where: { commentId } });

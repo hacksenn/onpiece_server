@@ -21,7 +21,8 @@ class CommentService {
         if (userId !== changeComment.userId) {
             throw new InvalidParamsError('유저 권한이 없습니다.', 401);
         }
-        return this.commentRepository.UpdateComment(comment, commentId);
+        await this.commentRepository.UpdateComment(comment, commentId);
+        return this.commentRepository.FindOneComment(commentId)
     };
     DeleteComment = async (commentId, userId) => {
         const delComment = await this.commentRepository.FindOneComment(
