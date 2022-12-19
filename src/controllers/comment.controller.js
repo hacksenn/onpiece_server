@@ -16,7 +16,7 @@ class CommentController {
             }
 
             const commentId = await this.commentService.CreateComment(postId, userId, comment);
-            res.status(200).json({ commentId : commentId , message: '댓글을 생성하였습니다.' });
+            res.status(200).json(commentId);
         } catch (error) {
             next(error);
         }
