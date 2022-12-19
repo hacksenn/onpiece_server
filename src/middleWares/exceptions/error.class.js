@@ -32,7 +32,7 @@ class ExistError extends Error {
         this.name = 'ExistError';
         if (!message) this.message = '중복된 정보입니다.';
     }
-} // 되랏
+}
 
 
 
