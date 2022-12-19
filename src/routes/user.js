@@ -7,8 +7,8 @@ const userController = new UserController()
 const SignupController = require('../controllers/signup.controller');
 const signupController = new SignupController();
 
-router.post('/', signupController.createSignup);
-router.get('/emailNnickname', signupController.checkUser);
+router.post('/signup', signupController.createSignup);
+router.get('/signup/emailNnickname', signupController.checkUser);
 
 //==================================
 //        작성한 스터디 목록 조회
