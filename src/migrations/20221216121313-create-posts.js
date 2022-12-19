@@ -45,23 +45,23 @@ module.exports = {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
       },
-      StartTime: {
+      startTime: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
         defaultValue: 1,
       },
-      EndTime: {
+      endTime: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
         defaultValue: 1,
       },
-      StartDay: {
-        type: Sequelize.DataTypes.INTEGER,
+      startDay: {
+        type: Sequelize.DataTypes.STRING,
         allowNull: false,
         defaultValue: 1,
       },
-      EndDay: {
-        type: Sequelize.DataTypes.INTEGER,
+      endDay: {
+        type: Sequelize.DataTypes.STRING,
         allowNull: false,
         defaultValue: 1,
       },

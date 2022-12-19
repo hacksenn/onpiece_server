@@ -64,23 +64,23 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      StartTime: {
+      startTime: {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: 1,
       },
-      EndTime: {
+      endTime: {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: 1,
       },
-      StartDay: {
-        type: DataTypes.INTEGER,
+      startDay: {
+        type: DataTypes.STRING,
         allowNull: false,
         defaultValue: 1,
       },
-      EndDay: {
-        type: DataTypes.INTEGER,
+      endDay: {
+        type: DataTypes.STRING,
         allowNull: false,
         defaultValue: 1,
       },
