@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'postId',
       });
       this.belongsTo(models.Users, { foreignKey: 'userId' });
-      this.belongsTo(models.Categories, { foreignKey: 'categoryId' });
     }
   }
   Posts.init(
@@ -76,12 +75,12 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 1,
       },
       StartDay: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         defaultValue: 1,
       },
       EndDay: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         defaultValue: 1,
       },
