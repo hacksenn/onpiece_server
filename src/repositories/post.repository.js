@@ -1,3 +1,5 @@
+const { Op } = require('sequelize');
+
 class PostRepository {
     constructor(PostsModel, UsersModel, CommentsModel, ApplicantsModel) {
         this.PostsModel = PostsModel;
@@ -37,6 +39,11 @@ class PostRepository {
 
     findAllPost = async () => {
         const allPost = await this.PostsModel.findAll({
+            where: {
+                recruitmentEndDay: {
+                    [Op.gt]: Math.round(+new Date() / 1000),
+                },
+            },
             include: [
                 {
                     model: this.UsersModel,
@@ -51,12 +58,11 @@ class PostRepository {
             ],
             order: [['createdAt', 'DESC']],
         });
-        console.log(allPost);
         return allPost;
     };
 
     findPostById = async (postId) => {
-        const post = await this.PostsModel.findOne({
+        const findPost = await this.PostsModel.findOne({
             where: { postId },
             include: [
                 {
@@ -71,12 +77,11 @@ class PostRepository {
                 },
             ],
         });
-        return post;
+        return findPost;
     };
 
     findExPostsById = async (userId) => {
         const exPosts = await this.PostsModel.findAll({
-            raw: true,
             where: {
                 userId,
             },
@@ -84,6 +89,22 @@ class PostRepository {
             order: [['createdAt', 'DESC']],
         });
         return exPosts;
+    };
+
+    findApplicants = async (postId) => {
+        const findApplicants = await this.ApplicantsModel.findAll({
+            where: {
+                postId,
+            },
+            include: [
+                {
+                    model: this.UsersModel,
+                    as: 'User',
+                    attributes: ['userId', 'nickname', 'email', 'description'],
+                },
+            ],
+        });
+        return findApplicants;
     };
 
     updatePost = async (
@@ -143,9 +164,23 @@ class PostRepository {
         return appliedStudy;
     };
 
-    findAppliedStudy = async (userId) => {
+    findIsDoneStudy = async (postId) => {
+        const findPost = await this.PostsModel.findOne({
+            where: { postId },
+            include: [
+                {
+                    model: this.ApplicantsModel,
+                    as: 'Applicants',
+                    attributes: ['userId'],
+                },
+            ],
+        });
+        return findPost;
+    };
+
+    findAppliedStudy = async (userId, postId) => {
         const existAppliedStudy = await this.ApplicantsModel.findOne({
-            where: { userId },
+            where: { userId, postId },
         });
         return existAppliedStudy;
     };

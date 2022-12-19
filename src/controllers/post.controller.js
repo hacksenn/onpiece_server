@@ -78,7 +78,13 @@ class PostController {
                 userId,
                 postId
             );
-            res.status(200).json({ post: post, exPosts: exPosts });
+
+            const applicants = await this.postService.findApplicants(postId);
+            res.status(200).json({
+                post: post,
+                exPosts: exPosts,
+                applicants: applicants,
+            });
         } catch (error) {
             next(error);
         }
@@ -88,8 +94,8 @@ class PostController {
     updatePost = async (req, res, next) => {
         try {
             const { postId } = req.params;
+            const userId = 1;
             const {
-                userId,
                 title,
                 content,
                 category,
@@ -101,6 +107,7 @@ class PostController {
                 startDay,
                 endDay,
             } = req.body;
+
             if (
                 !title ||
                 !content ||
@@ -117,8 +124,8 @@ class PostController {
             }
 
             const updatedPost = await this.postService.updatePost(
-                postId,
                 userId,
+                postId,
                 title,
                 content,
                 category,
@@ -161,7 +168,9 @@ class PostController {
             const userId = 1;
             const { postId } = req.params;
 
-            await this.postService.findAppliedStudy(userId);
+            await this.postService.findIsDoneStudy(postId);
+
+            await this.postService.findAppliedStudy(userId, postId);
 
             const appliedStudy = await this.postService.applyStudy(
                 userId,

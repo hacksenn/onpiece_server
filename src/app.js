@@ -3,7 +3,7 @@ const app = express();
 require('dotenv').config();
 
 const port = process.env.PORT;
-const ErrorHandler = require('./middleWares/error.handler.middleware');
+
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 app.use(express.json());

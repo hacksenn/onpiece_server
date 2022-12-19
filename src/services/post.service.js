@@ -55,8 +55,8 @@ class PostService {
                 endTime: post.endTime,
                 startDay: post.startDay,
                 endDay: post.endDay,
-                applicants: post.Applicants.map((a) => {
-                    return a.userId;
+                applicants: post.Applicants.map((applicant) => {
+                    return applicant.userId;
                 }),
             };
         });
@@ -82,9 +82,6 @@ class PostService {
             endTime: findPost.endTime,
             startDay: findPost.startDay,
             endDay: findPost.endDay,
-            applicants: findPost.Applicants.map((a) => {
-                return a.userId;
-            }),
         };
     };
 
@@ -105,6 +102,22 @@ class PostService {
         return posts;
     };
 
+    findApplicants = async (postId) => {
+        const findApplicants = await this.postRepository.findApplicants(postId);
+
+        if (!findApplicants) {
+            return;
+        }
+        return findApplicants.map((applicant) => {
+            return {
+                userId: applicant.userId,
+                nickname: applicant.User.nickname,
+                email: applicant.User.email,
+                applicantDescription: applicant.User.description,
+            };
+        });
+    };
+
     updatePost = async (
         userId,
         postId,
@@ -119,6 +132,8 @@ class PostService {
         startDay,
         endDay
     ) => {
+        console.log(postId);
+        console.log(userId);
         const findPost = await this.postRepository.findPostById(postId);
         if (!findPost) throw new ValidationError('존재하지 않는 게시글입니다.');
 
@@ -178,9 +193,19 @@ class PostService {
         return appliedStudy;
     };
 
-    findAppliedStudy = async (userId) => {
+    findIsDoneStudy = async (postId) => {
+        const findPost = await this.postRepository.findIsDoneStudy(postId);
+        if (findPost.headCount === findPost.Applicants.length) {
+            throw new ValidationError('모집이 완료된 스터디입니다.');
+        } else {
+            return;
+        }
+    };
+
+    findAppliedStudy = async (userId, postId) => {
         const existAppliedStudy = await this.postRepository.findAppliedStudy(
-            userId
+            userId,
+            postId
         );
         if (existAppliedStudy) {
             throw new ValidationError('스터디 신청이 이미 완료되었습니다.');
