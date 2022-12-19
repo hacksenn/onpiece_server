@@ -10,19 +10,13 @@ app.use(express.json());
 
 app.use('/api', require('./routes/index'));
 
-<<<<<<< HEAD
-const ErrorHandler = require('./middleWares/error.handler.middleware')
-app.use(ErrorHandler)
-
 //메인화면 설정
 app.get("/", (req, res) => {
   res.send("안녕하세요, 항해99 10기 E반 김혜란 입니다.");
 });
-=======
+
 const ErrorHandler = require('./middleWares/error.handler.middleware');
 app.use(ErrorHandler);
->>>>>>> b3cb4b57eb678107b0cb99ac4f49a9ebdefd1c78
-
 
 app.listen(port, () => {
   console.log(port, '포트로 서버가 열렸어요!');
