@@ -1,8 +1,9 @@
 class PostRepository {
-    constructor(PostsModel, UsersModel, CommentsModel) {
+    constructor(PostsModel, UsersModel, CommentsModel, ApplicantsModel) {
         this.PostsModel = PostsModel;
         this.UsersModel = UsersModel;
         this.CommentsModel = CommentsModel;
+        this.ApplicantsModel = ApplicantsModel;
     }
 
     createPost = async (
@@ -18,7 +19,7 @@ class PostRepository {
         startDay,
         endDay
     ) => {
-        const createPostData = await this.PostsModel.create({
+        const createPost = await this.PostsModel.create({
             userId,
             title,
             content,
@@ -31,26 +32,42 @@ class PostRepository {
             startDay,
             endDay,
         });
-        return createPostData;
+        return createPost;
     };
 
     findAllPost = async () => {
-        const data = await this.PostsModel.findAll({
-            include: [{ model: this.UsersModel, attributes: ['nickname'] }],
-            // 내림차순 정렬
+        const allPost = await this.PostsModel.findAll({
+            include: [
+                {
+                    model: this.UsersModel,
+                    as: 'User',
+                    attributes: ['nickname'],
+                },
+                {
+                    model: this.ApplicantsModel,
+                    as: 'Applicants',
+                    attributes: ['userId'],
+                },
+            ],
             order: [['createdAt', 'DESC']],
         });
-        return data;
+        console.log(allPost);
+        return allPost;
     };
 
     findPostById = async (postId) => {
         const post = await this.PostsModel.findOne({
             where: { postId },
             include: [
-                { model: this.UsersModel, attributes: ['nickname'] },
                 {
                     model: this.UsersModel,
-                    attributes: ['nickname'],
+                    as: 'User',
+                    attributes: ['nickname', 'description'],
+                },
+                {
+                    model: this.ApplicantsModel,
+                    as: 'Applicants',
+                    attributes: ['userId'],
                 },
             ],
         });
@@ -69,12 +86,37 @@ class PostRepository {
         return exPosts;
     };
 
-    updatePost = async (userId, postId, title, content) => {
-        const result = await this.PostsModel.update(
-            { title, content },
-            { where: { postId: postId, userId: userId } }
+    updatePost = async (
+        userId,
+        postId,
+        title,
+        content,
+        category,
+        level,
+        headCount,
+        recruitmentEndDay,
+        startTime,
+        endTime,
+        startDay,
+        endDay
+    ) => {
+        const updatePost = await this.PostsModel.update(
+            {
+                title,
+                content,
+                category,
+                level,
+                headCount,
+                recruitmentEndDay,
+                startTime,
+                endTime,
+                startDay,
+                endDay,
+            },
+            { where: { userId, postId } }
         );
-        return result;
+        console.log(updatePost);
+        return updatePost;
     };
 
     deletePost = async (userId, postId) => {
@@ -91,6 +133,28 @@ class PostRepository {
         });
 
         return existPost;
+    };
+
+    applyStudy = async (userId, postId) => {
+        const appliedStudy = await this.ApplicantsModel.create({
+            userId,
+            postId,
+        });
+        return appliedStudy;
+    };
+
+    findAppliedStudy = async (userId) => {
+        const existAppliedStudy = await this.ApplicantsModel.findOne({
+            where: { userId },
+        });
+        return existAppliedStudy;
+    };
+
+    cancleStudyApply = async (userId, postId) => {
+        const cancellationStudyApply = await this.ApplicantsModel.destroy({
+            where: { userId, postId },
+        });
+        return cancellationStudyApply;
     };
 }
 

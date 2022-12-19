@@ -1,5 +1,6 @@
 const PostService = require('../services/post.service.js');
 const { InvalidParamsError } = require('../middleWares/exceptions/error.class');
+const { next } = require('cli');
 
 class PostController {
     postService = new PostService();
@@ -8,7 +9,6 @@ class PostController {
     createPost = async (req, res, next) => {
         try {
             const {
-                userId,
                 title,
                 content,
                 category,
@@ -20,7 +20,7 @@ class PostController {
                 startDay,
                 endDay,
             } = req.body;
-
+            const userId = 1;
             if (
                 !title ||
                 !content ||
@@ -36,7 +36,7 @@ class PostController {
                 throw new InvalidParamsError();
             }
 
-            const createPostData = await this.postService.createPost(
+            const createdPost = await this.postService.createPost(
                 userId,
                 title,
                 content,
@@ -49,17 +49,18 @@ class PostController {
                 startDay,
                 endDay
             );
-            res.status(201).json({ data: createPostData });
+            res.status(201).json({ createdPost: createdPost });
         } catch (error) {
             next(error);
         }
     };
 
-    // 게시글 조회
+    // 게시글 전체조회
     getPosts = async (req, res, next) => {
         try {
-            const posts = await this.postService.findAllPost();
-            res.status(200).json({ data: posts });
+            const allPost = await this.postService.findAllPost();
+
+            res.status(200).json({ allPost: allPost });
         } catch (error) {
             next(error);
         }
@@ -88,6 +89,7 @@ class PostController {
         try {
             const { postId } = req.params;
             const {
+                userId,
                 title,
                 content,
                 category,
@@ -99,7 +101,6 @@ class PostController {
                 startDay,
                 endDay,
             } = req.body;
-            const userId = 'mockId';
             if (
                 !title ||
                 !content ||
@@ -115,9 +116,9 @@ class PostController {
                 throw new InvalidParamsError();
             }
 
-            const updatePost = await this.postService.updatePost(
-                userId,
+            const updatedPost = await this.postService.updatePost(
                 postId,
+                userId,
                 title,
                 content,
                 category,
@@ -129,8 +130,7 @@ class PostController {
                 startDay,
                 endDay
             );
-
-            res.status(200).json({ data: updatePost });
+            res.status(200).json({ updatedPost: updatedPost });
         } catch (error) {
             next(error);
         }
@@ -139,17 +139,51 @@ class PostController {
     // 게시글 삭제
     deletePost = async (req, res, next) => {
         try {
-            const userId = 'mockId';
+            const userId = 1;
             const { postId } = req.params;
 
             await this.postService.findPost(postId);
 
-            const deletePost = await this.postService.deletePost(
+            const deletedPost = await this.postService.deletePost(
                 userId,
                 postId
             );
 
-            res.status(200).json({ data: deletePost });
+            res.status(200).json({ deletedPost: deletedPost });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    // 스터디 신청
+    applyStudy = async (req, res, next) => {
+        try {
+            const userId = 1;
+            const { postId } = req.params;
+
+            await this.postService.findAppliedStudy(userId);
+
+            const appliedStudy = await this.postService.applyStudy(
+                userId,
+                postId
+            );
+            res.status(200).json({ appliedStudy: appliedStudy });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    // 스터디 신청 취소
+    cancleStudyApply = async (req, res, next) => {
+        try {
+            const userId = 1;
+            const { postId } = req.params;
+
+            const cancellationStudyApply =
+                await this.postService.cancleStudyApply(userId, postId);
+            res.status(200).json({
+                cancellationStudyApply: cancellationStudyApply,
+            });
         } catch (error) {
             next(error);
         }
