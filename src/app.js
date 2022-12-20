@@ -12,7 +12,7 @@ app.use('/api', require('./routes/index'));
 
 //메인화면 설정
 app.get("/", (req, res) => {
-  res.send("안녕하세요, 항해99 10기 E반 김혜란 입니다.");
+  res.send("안녕하세요, 항해99 10기 E반 3조 BE 김혜란, 김혁찬, 노연수 입니다.");
 });
 
 const ErrorHandler = require('./middleWares/error.handler.middleware');

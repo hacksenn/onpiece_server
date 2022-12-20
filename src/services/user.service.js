@@ -14,8 +14,6 @@ class UserService {
 
     UpdateUser = async (userId, description) => {
         const user = await this.userRepository.FindOneUser(userId);
-        console.log(user, user.userId)
-        console.log(userId)
         if (user == null || user.length === 0) {
             throw new InvalidParamsError('유저를 찾을 수 없습니다.', 404);
         }
@@ -41,7 +39,7 @@ class UserService {
                     nickname: post['User.nickname'],
                     title: post.title,
                     content: post.content,
-                    category: post.category,
+                    category: (post.category).split(','),
                     level: post.level,
                     headCount: post.headCount,
                     recruitmentEndDay: post.recruitmentEndDay,
@@ -58,7 +56,6 @@ class UserService {
 
     FindAllUserApply = async (userId) => {
         const posts = await this.userRepository.FindAllUserApply(userId);
-        console.log(posts[0])
         if (posts == null || posts.length === 0) {
             throw new InvalidParamsError('포스트를 찾을 수 없습니다.', 404);
         }
@@ -73,7 +70,7 @@ class UserService {
                     nickname: post['User.nickname'],
                     title: post['Post.title'],
                     content: post['Post.content'],
-                    category: post['Post.category'],
+                    category: (post['Post.category']).split(','),
                     level: post['Post.level'],
                     headCount: post['Post.headCount'],
                     recruitmentEndDay: post['Post.recruitmentEndDay'],
@@ -85,7 +82,6 @@ class UserService {
                 };
             })
         );
-        console.log(postsApplicants[0])
         return postsApplicants
     };
 }

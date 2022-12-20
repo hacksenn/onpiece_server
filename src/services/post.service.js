@@ -38,8 +38,10 @@ class PostService {
 
     findAllPost = async () => {
         const allPost = await this.postRepository.findAllPost();
-        if (!allPost)
+        if (!allPost) {
             throw ValidationError('게시글 조회에 실패하였습니다.', 400);
+        }
+        console.log(allPost);
         return allPost.map((post) => {
             return {
                 postId: post.postId,
@@ -47,7 +49,7 @@ class PostService {
                 nickname: post.User.nickname,
                 title: post.title,
                 content: post.content,
-                category: post.category,
+                category: post.category.split(','),
                 level: post.level,
                 headCount: post.headCount,
                 recruitmentEndDay: post.recruitmentEndDay,
@@ -74,7 +76,7 @@ class PostService {
             userDescription: findPost.User.description,
             title: findPost.title,
             content: findPost.content,
-            category: findPost.category,
+            category: findPost.category.split(','),
             level: findPost.level,
             headCount: findPost.headCount,
             recruitmentEndDay: findPost.recruitmentEndDay,

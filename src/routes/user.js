@@ -12,6 +12,12 @@ const loginController = new LoginController()
 //==================================
 router.post("/login", authUser, loginController.Login);
 
+const SignupController = require('../controllers/signup.controller');
+const signupController = new SignupController();
+
+router.post('/signup', signupController.createSignup);
+router.get('/signup/emailNnickname', signupController.checkUser);
+
 //==================================
 //        작성한 스터디 목록 조회
 //==================================

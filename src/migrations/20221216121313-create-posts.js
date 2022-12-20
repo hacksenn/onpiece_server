@@ -56,12 +56,12 @@ module.exports = {
                 defaultValue: 1,
             },
             startDay: {
-                type: Sequelize.DataTypes.INTEGER,
+                type: Sequelize.DataTypes.STRING,
                 allowNull: false,
                 defaultValue: 1,
             },
             endDay: {
-                type: Sequelize.DataTypes.INTEGER,
+                type: Sequelize.DataTypes.STRING,
                 allowNull: false,
                 defaultValue: 1,
             },
