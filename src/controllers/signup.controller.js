@@ -6,7 +6,7 @@ class SignupController {
 
 
     /**
-     * @param {import("express").Request} req - express Request
+     * @param {import("express").Request} req - express Request 
      * @param {import("express").Response} res - express Response
      * @param {import("express").NextFunction} next - express Response
      * **/

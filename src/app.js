@@ -1,15 +1,6 @@
 const express = require('express');
 const app = express();
-const cors = require("cors");
-
-let corsOptions = {
-  origin: true,      // 출처 허용 옵션 true 혹은 '*'
-  credential: true, // 사용자 인증이 필요한 리소스(쿠키 등) 접근
-}
-
-app.use(cors(corsOptions))
-
-require('dotenv').config();
+require('dotenv').config('');
 
 const port = process.env.PORT;
 
@@ -27,8 +18,9 @@ app.get("/", (req, res) => {
 const ErrorHandler = require('./middleWares/error.handler.middleware');
 app.use(ErrorHandler);
 
+
 app.listen(port, () => {
-    console.log(port, '포트로 서버가 열렸어요!');
+  console.log(port, '포트로 서버가 열렸어요!');
 });
 
 module.exports = app;
