@@ -19,8 +19,8 @@ class PostController {
                 startDay,
                 endDay,
             } = req.body;
-            const userId = 1;
             const categoryArray = req.body.category;
+            const { userId } = res.locals;
 
             const category = categoryArray.toString();
             if (
@@ -37,7 +37,6 @@ class PostController {
             ) {
                 throw new InvalidParamsError();
             }
-
             const createdPost = await this.postService.createPost(
                 userId,
                 title,
@@ -72,7 +71,7 @@ class PostController {
     getPostById = async (req, res, next) => {
         try {
             const { postId } = req.params;
-            const userId = 1;
+            const { userId } = res.locals;
             if (!postId) throw new InvalidParamsError();
             const post = await this.postService.findPostById(postId);
 
@@ -96,7 +95,8 @@ class PostController {
     updatePost = async (req, res, next) => {
         try {
             const { postId } = req.params;
-            const userId = 1;
+            const { userId } = res.locals;
+            const categoryArray = req.body.category;
             const {
                 title,
                 content,
@@ -108,7 +108,7 @@ class PostController {
                 startDay,
                 endDay,
             } = req.body;
-            const categoryArray = req.body.category;
+            
             const category = categoryArray.toString();
             if (
                 !title ||
@@ -148,7 +148,7 @@ class PostController {
     // 게시글 삭제
     deletePost = async (req, res, next) => {
         try {
-            const userId = 1;
+            const { userId } = res.locals;
             const { postId } = req.params;
 
             await this.postService.findPost(postId);
@@ -167,7 +167,7 @@ class PostController {
     // 스터디 신청
     applyStudy = async (req, res, next) => {
         try {
-            const userId = 1;
+            const { userId } = res.locals;
             const { postId } = req.params;
 
             await this.postService.findIsDoneStudy(postId);
@@ -187,7 +187,7 @@ class PostController {
     // 스터디 신청 취소
     cancleStudyApply = async (req, res, next) => {
         try {
-            const userId = 1;
+            const { userId } = res.locals;
             const { postId } = req.params;
 
             const cancellationStudyApply =

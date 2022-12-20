@@ -21,6 +21,7 @@ class PostRepository {
         startDay,
         endDay
     ) => {
+        console.log(userId)
         const createPost = await this.PostsModel.create({
             userId,
             title,

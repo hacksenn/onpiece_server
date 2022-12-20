@@ -2,44 +2,39 @@ const express = require("express");
 const router = express.Router();
 
 const authUser = require('../middleWares/authUser.middleware');
+
 const UserController = require('../controllers/user.controller');
-const LoginController = require('../controllers/login.controller');
 const userController = new UserController()
-const loginController = new LoginController()
-
-
-//authCheck
-router.get('/auth', authUser, userController.FindAllUserPosts)
 
 //==================================
-//        Login - 로그인
+//              로그인
 //==================================
-router.post("/login", loginController.Login);
+router.post("/login", userController.Login);
 
-const SignupController = require('../controllers/signup.controller');
-const signupController = new SignupController();
-
-router.post('/signup', signupController.createSignup);
-router.get('/signup/emailNnickname', signupController.checkUser);
+//==================================
+//            회원 가입
+//==================================
+router.post('/signup', userController.createSignup);
+router.get('/signup/emailNnickname', userController.checkUser);
 
 //==================================
 //        작성한 스터디 목록 조회
 //==================================
-router.get("/:userId/posts", userController.FindAllUserPosts);
+router.get("/:userId/posts", authUser, userController.FindAllUserPosts);
 
 //==================================
 //        신청한 스터디 목록 조회
 //==================================
-router.get("/:userId/apply", userController.FindAllUserApply);
+router.get("/:userId/apply", authUser, userController.FindAllUserApply);
 
 //==================================
 //           유저 정보 조회
 //==================================
-router.get("/:userId", userController.GetUser);
+router.get("/:userId", authUser, userController.GetUser);
 
 //==================================
 //           유저 정보 수정
 //==================================
-router.put('/:userId', userController.UpdateUser)
+router.put('/:userId', authUser, userController.UpdateUser)
 
 module.exports = router
