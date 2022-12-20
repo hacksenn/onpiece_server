@@ -7,16 +7,14 @@ const { tokenObject } = require('../controllers/login.controller')
 module.exports = async (req, res, next) => {
     try {
         // 토큰이 없을 경우
-        console.log(req.headers.token)
         if (!req.headers.token) {
             console.log("accessToken이 없습니다.")
             throw next(err)
         }
 
-        const accessToken = req.header.token;
+        const accessToken = req.headers.token;
         // validateAccessToken() = 엑세스 토큰 확인
         const isAccessTokenValidate = validateAccessToken(accessToken);
-
 
         // AccessToken을 확인 했을 때 만료일 경우
         if (!isAccessTokenValidate) {
