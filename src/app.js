@@ -1,6 +1,16 @@
 const express = require('express');
+
+const http = require('http')
+const https = require('https')
+const fs = require('fs')
+
+const options = {
+  key : fs.readFileSync('src/rootca.key'),
+  cert : fs.readFileSync('src/rootca.crt')
+}
+
 const app = express();
-require('dotenv').config('');
+require('dotenv').config();
 
 const cors = require('cors')
 const corsOption = {
@@ -27,8 +37,11 @@ const ErrorHandler = require('./middleWares/error.handler.middleware');
 app.use(ErrorHandler);
 
 
-app.listen(port, () => {
-  console.log(port, '포트로 서버가 열렸어요!');
-});
+// app.listen(port, () => {
+//   console.log(port, '포트로 서버가 열렸어요!');
+// });
+
+http.createServer(app).listen(process.env.HTTP_PORT)
+https.createServer(options, app).listen(process.env.HTTPS_PORT)
 
 module.exports = app;
