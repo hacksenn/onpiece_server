@@ -8,6 +8,14 @@ const jwt = require('jsonwebtoken');
 class UserService {
     userRepository = new UserRepository();
 
+    FindUserAll = async () => {
+        const users = await this.userRepository.FindAllUser();
+        if (users == null || users.length === 0) {
+            throw new InvalidParamsError('유저를 찾을 수 없습니다.', 404);
+        }
+        return users;
+    };
+
     FindUser = async (userId) => {
         const user = await this.userRepository.FindOneUser(userId);
         if (user == null || user.length === 0) {

@@ -7,6 +7,17 @@ const UserService = require('../services/user.service');
 class UserController {
     userService = new UserService();
 
+    GetUserAll = async (req, res, next) => {
+        try {
+            const users = await this.userService.FindUserAll();
+            res.json({
+                data: users,
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+
     GetUser = async (req, res, next) => {
         try {
             const { userId } = req.params;

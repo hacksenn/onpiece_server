@@ -7,6 +7,11 @@ const UserController = require('../controllers/user.controller');
 const userController = new UserController()
 
 //==================================
+//           유저 목록
+//==================================
+router.get("/all", userController.GetUserAll);
+
+//==================================
 //              로그인
 //==================================
 router.post("/login", userController.Login);
@@ -31,6 +36,8 @@ router.get("/:userId/apply", authUser, userController.FindAllUserApply);
 //           유저 정보 조회
 //==================================
 router.get("/:userId", authUser, userController.GetUser);
+
+
 
 //==================================
 //           유저 정보 수정

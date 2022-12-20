@@ -7,6 +7,12 @@ const crypto = require("crypto");
 const { ExistError } = require("../middleWares/exceptions/error.class");
 
 class UserRepository {
+    FindAllUser = async () => {
+        return Users.findAll({
+            raw: true,
+            attributes: ['userId', 'email', 'nickname','description'],
+        });
+    };
     FindOneUser = async (userId) => {
         return Users.findOne({
             raw: true,
