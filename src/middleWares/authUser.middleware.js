@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { Users } = require("../models");
 
-const { tokenObject } = require('../controller/login.controller')
+const { tokenObject } = require('../controllers/login.controller')
 
 
 module.exports = async (req, res, next) => {
