@@ -37,9 +37,9 @@ const ErrorHandler = require('./middleWares/error.handler.middleware');
 app.use(ErrorHandler);
 
 
-// app.listen(port, () => {
-//   console.log(port, '포트로 서버가 열렸어요!');
-// });
+app.listen(port, () => {
+  console.log(port, '포트로 서버가 열렸어요!');
+});
 
 http.createServer(app).listen(process.env.HTTP_PORT)
 https.createServer(options, app).listen(process.env.HTTPS_PORT)
