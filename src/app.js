@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 require('dotenv').config('');
 
-const cors = require('core')
+const cors = require('cors')
 const corsOption = {
   origin : true,
   withCredential : true
