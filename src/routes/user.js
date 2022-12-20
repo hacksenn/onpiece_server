@@ -1,8 +1,16 @@
 const express = require("express");
 const router = express.Router();
 
+const authUser = require('../middleWares/authUser.middleware');
 const UserController = require('../controllers/user.controller');
+const LoginController = require('../controllers/login.controller');
 const userController = new UserController()
+const loginController = new LoginController()
+
+//==================================
+//        Login - 로그인
+//==================================
+router.post("/login", authUser, loginController.Login);
 
 //==================================
 //        작성한 스터디 목록 조회
