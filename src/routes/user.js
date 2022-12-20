@@ -7,6 +7,10 @@ const LoginController = require('../controllers/login.controller');
 const userController = new UserController()
 const loginController = new LoginController()
 
+
+//authCheck
+router.get('/auth', authUser, userController.FindAllUserPosts)
+
 //==================================
 //        Login - 로그인
 //==================================
