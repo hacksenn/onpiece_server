@@ -11,7 +11,6 @@ class PostController {
             const {
                 title,
                 content,
-                category,
                 level,
                 headCount,
                 recruitmentEndDay,
@@ -21,6 +20,9 @@ class PostController {
                 endDay,
             } = req.body;
             const userId = 1;
+            const categoryArray = req.body.category;
+
+            const category = categoryArray.toString();
             if (
                 !title ||
                 !content ||
@@ -98,7 +100,6 @@ class PostController {
             const {
                 title,
                 content,
-                category,
                 level,
                 headCount,
                 recruitmentEndDay,
@@ -107,7 +108,8 @@ class PostController {
                 startDay,
                 endDay,
             } = req.body;
-
+            const categoryArray = req.body.category;
+            const category = categoryArray.toString();
             if (
                 !title ||
                 !content ||
