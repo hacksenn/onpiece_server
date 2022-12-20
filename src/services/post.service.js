@@ -134,8 +134,6 @@ class PostService {
         startDay,
         endDay
     ) => {
-        console.log(postId);
-        console.log(userId);
         const findPost = await this.postRepository.findPostById(postId);
         if (!findPost) throw new ValidationError('존재하지 않는 게시글입니다.');
 
@@ -156,7 +154,7 @@ class PostService {
         if (!updatePost) {
             throw new ValidationError('게시글 수정에 실패하였습니다.');
         }
-        return updatePost;
+        return this.postRepository.findPostById(postId);
     };
 
     deletePost = async (userId, postId) => {

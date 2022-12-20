@@ -4,15 +4,12 @@ const { AuthenticationError } = require("./exceptions/error.class");
 module.exports = async (req, res, next) => {
     try {
         // 토큰이 없을 경우
-        const accessToken = req.headers.token;
         if (!req.headers.token) {
             throw new AuthenticationError("accessToken이 없습니다.", 404)
         };
-
-
+        const accessToken = req.headers.token;
         // validateAccessToken() = 엑세스 토큰 확인
         const isAccessTokenValidate = validateAccessToken(accessToken);
-
 
         // AccessToken을 확인 했을 때 만료일 경우
         if (!isAccessTokenValidate) {
@@ -20,11 +17,9 @@ module.exports = async (req, res, next) => {
         };
 
         const { userId } = getAccessTokenPayload(accessToken);
-        res.locals.user = userId;
-
-
-        res.json({ userId })
-        // next();
+        res.locals.userId = userId;
+        
+        next();
     } catch (err) {
         return res.status(400).json({ msg: "로그인이 필요합니다." });
     }

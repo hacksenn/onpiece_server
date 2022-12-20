@@ -7,8 +7,7 @@ class CommentController {
     CreateComment = async (req, res, next) => {
         try {
             const { postId } = req.params;
-            // const { userId } = res.locals.user;
-            const userId = 1;
+            const { userId } = res.locals;
             const { comment } = req.body;
 
             if (!postId || !userId || !comment) {
@@ -25,8 +24,7 @@ class CommentController {
         try {
             const { commentId } = req.params;
             const { comment } = req.body;
-            // const { userId } = res.locals.user;
-            const userId = 1;
+            const { userId } = res.locals;
 
             if (!comment) {
                 throw new ValidationError('댓글을 작성 해주세요.', 412);
@@ -41,8 +39,7 @@ class CommentController {
     DeleteComment = async (req, res, next) => {
       try {
         let { commentId } = req.params;
-        // const { userId } = res.locals.user;
-        const userId = 1;
+        const { userId } = res.locals;
         
         await this.commentService.DeleteComment(commentId, userId);
         return res.status(200).json({ message: "댓글을 삭제하였습니다." });

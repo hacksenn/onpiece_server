@@ -1,8 +1,20 @@
 const UserRepository = require('../repositories/user.repository');
-const { InvalidParamsError } = require('../middleWares/exceptions/error.class');
+const { InvalidParamsError, ExistError, ValidationError } = require('../middleWares/exceptions/error.class');
+
+require('dotenv').config();
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 
 class UserService {
     userRepository = new UserRepository();
+
+    FindUserAll = async () => {
+        const users = await this.userRepository.FindAllUser();
+        if (users == null || users.length === 0) {
+            throw new InvalidParamsError('유저를 찾을 수 없습니다.', 404);
+        }
+        return users;
+    };
 
     FindUser = async (userId) => {
         const user = await this.userRepository.FindOneUser(userId);
@@ -84,6 +96,66 @@ class UserService {
         );
         return postsApplicants
     };
+
+    existUser = async (email, password) => {
+        const secretPW = crypto
+            .createHash(process.env.PW_KEY)
+            .update(password)
+            .digest(process.env.INCOD);
+
+        password = secretPW
+
+        const existUser = await this.userRepository.existUser(email, password)
+
+        if (!existUser || existUser.length === 0) {
+            throw new ExistError(
+                '로그인 정보를 다시 확인해주세요.', 412
+            )
+        }
+        return existUser;
+    }
+
+    createAccessToken = (userId) => {
+        return jwt.sign(
+            { userId },
+            process.env.SECRET_KEY,
+            { expiresIn: "60m" }
+        );
+    };
+
+    createSignup = async (
+        email, nickname, password, confirm, description
+    ) => {
+        const condition = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+        if (!condition.test(email)) {
+            throw new ValidationError(
+                'email을 형식이 일치하지 않습니다.', 412
+            )
+        };
+        if (password !== confirm) {
+            throw new ValidationError(
+                'confirm을 확인해주세요.', 412
+            )
+        }
+
+        return this.userRepository.createSignup(
+            email,
+            nickname,
+            password,
+            description
+        );
+
+
+    };
+
+    checkUser = async (
+        email, nickname
+    ) => {
+        await this.userRepository.checkEmail(email);
+        await this.userRepository.checkNickname(nickname);
+        return
+    }
 }
 
 module.exports = UserService;
