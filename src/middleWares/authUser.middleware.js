@@ -1,18 +1,19 @@
 const jwt = require("jsonwebtoken");
 const { Users } = require("../models");
 
-const { tokenObject } = require('../controller/login.controller')
+const { tokenObject } = require('../controllers/login.controller')
 
 
 module.exports = async (req, res, next) => {
     try {
         // 토큰이 없을 경우
-        if (!req.cookies.accessToken) {
+        console.log(req.headers.token)
+        if (!req.headers.token) {
             console.log("accessToken이 없습니다.")
             throw next(err)
         }
 
-        const accessToken = req.cookies.accessToken;
+        const accessToken = req.header.token;
         // validateAccessToken() = 엑세스 토큰 확인
         const isAccessTokenValidate = validateAccessToken(accessToken);
 
@@ -26,16 +27,11 @@ module.exports = async (req, res, next) => {
         }
 
         const { userId } = getAccessTokenPayload(accessToken);
-        const user = await Users.findOne({
-            raw: true,
-            attributes: ["userId", "nickname"],
-            where: { userId }
-        })
-        res.locals.user = user;
+        res.locals.user = userId;
 
 
-
-        next();
+        res.json({userId})
+        // next();
     } catch (err) {
         return res.status(400).json({ msg: "로그인이 필요합니다." });
     }

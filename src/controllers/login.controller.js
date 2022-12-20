@@ -18,10 +18,12 @@ class LoginController {
                 )
             }
             const existUser = await this.loginService.existUser(email, password);
+            console.log(existUser)
 
             const accessToken = this.loginService.createAcessToken(existUser.userId);
+            console.log(accessToken)
 
-            return res.header(token, accessToken).status(200).json({ token: accessToken });
+            return res.header('token', accessToken).status(200).json({ token: accessToken });
         } catch (err) {
             next(err);
         }

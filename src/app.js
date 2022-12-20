@@ -2,6 +2,14 @@ const express = require('express');
 const app = express();
 require('dotenv').config('');
 
+const cors = require('cors')
+const corsOption = {
+  origin : true,
+  withCredential : true
+}
+app.use(cors(corsOption))
+
+
 const port = process.env.PORT;
 
 const cookieParser = require('cookie-parser');

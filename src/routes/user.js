@@ -7,10 +7,14 @@ const LoginController = require('../controllers/login.controller');
 const userController = new UserController()
 const loginController = new LoginController()
 
+
+//authCheck
+router.get('/auth', authUser, userController.FindAllUserPosts)
+
 //==================================
 //        Login - 로그인
 //==================================
-router.post("/login", authUser, loginController.Login);
+router.post("/login", loginController.Login);
 
 const SignupController = require('../controllers/signup.controller');
 const signupController = new SignupController();
