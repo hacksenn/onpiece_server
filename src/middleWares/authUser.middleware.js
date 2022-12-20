@@ -1,36 +1,29 @@
 const jwt = require("jsonwebtoken");
-const { Users } = require("../models");
-
-const { tokenObject } = require('../controllers/login.controller')
-
+const { AuthenticationError } = require("./exceptions/error.class");
 
 module.exports = async (req, res, next) => {
     try {
         // 토큰이 없을 경우
-        console.log(req.headers.token)
+        const accessToken = req.headers.token;
         if (!req.headers.token) {
-            console.log("accessToken이 없습니다.")
-            throw next(err)
-        }
+            throw new AuthenticationError("accessToken이 없습니다.", 404)
+        };
 
-        const accessToken = req.header.token;
+
         // validateAccessToken() = 엑세스 토큰 확인
         const isAccessTokenValidate = validateAccessToken(accessToken);
 
 
         // AccessToken을 확인 했을 때 만료일 경우
         if (!isAccessTokenValidate) {
-            const accessTokenId = tokenObject[refreshToken];
-            const newAccessToken = createAccessToken(accessTokenId);
-
-            res.cookie("accessToken", newAccessToken);
-        }
+            throw new AuthenticationError("accessToken이 만료되었습니다.", 404)
+        };
 
         const { userId } = getAccessTokenPayload(accessToken);
         res.locals.user = userId;
 
 
-        res.json({userId})
+        res.json({ userId })
         // next();
     } catch (err) {
         return res.status(400).json({ msg: "로그인이 필요합니다." });
@@ -40,7 +33,7 @@ module.exports = async (req, res, next) => {
 // Access Token을 검증합니다.
 function validateAccessToken(accessToken) {
     try {
-        jwt.verify(accessToken, process.env.KEY); // JWT를 검증합니다.
+        jwt.verify(accessToken, process.env.SECRET_KEY); // JWT를 검증합니다.
         return true;
     } catch (error) {
         return false;
@@ -50,19 +43,10 @@ function validateAccessToken(accessToken) {
 // Access Token의 Payload를 가져옵니다.
 function getAccessTokenPayload(accessToken) {
     try {
-        const payload = jwt.verify(accessToken, process.env.KEY); // JWT에서 Payload를 가져옵니다.
+        const payload = jwt.verify(accessToken, process.env.SECRET_KEY); // JWT에서 Payload를 가져옵니다.
         return payload;
     } catch (error) {
         return null;
     }
 }
 
-function createAccessToken(userId) {
-    const accessToken = jwt.sign(
-        { userId },
-        process.env.KEY, // 시크릿 키
-        { expiresIn: "10m" } // 유효 시간
-    );
-
-    return accessToken;
-}
