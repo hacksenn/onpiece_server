@@ -36,7 +36,7 @@ app.use(ErrorHandler);
 
 
 http.createServer(app).listen(process.env.HTTP_PORT, () => {
-  console.log(port, '포트로 http 서버가 열렸어요!');
+  console.log(process.env.HTTP_PORT, '포트로 http 서버가 열렸어요!');
 });
 // https.createServer(options, app).listen(process.env.HTTPS_PORT, () => {
 //   console.log(port, '포트로 https 서버가 열렸어요!');
