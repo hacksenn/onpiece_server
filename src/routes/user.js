@@ -9,7 +9,7 @@ const userController = new UserController();
 //==================================
 //           스터디 통계
 //==================================
-router.get('/login', userController.getPostsData);
+router.get('/statics', userController.getPostsData);
 //==================================
 //           유저 목록
 //==================================
