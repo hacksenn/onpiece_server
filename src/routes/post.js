@@ -4,6 +4,14 @@ const router = express.Router();
 const PostController = require('../controllers/post.controller');
 const postController = new PostController();
 
+const UserController = require('../controllers/user.controller');
+const userController = new UserController();
+
+//==================================
+//           스터디 통계
+//==================================
+router.get('/statics', userController.getPostsData);
+
 // 게시글 작성
 router.post('/', postController.createPost);
 // 게시글 수정
@@ -18,5 +26,7 @@ router.get('/:postId', postController.getPostById);
 router.post('/:postId/apply', postController.applyStudy);
 // 스터디 신청 취소
 router.delete('/:postId/apply', postController.cancleStudyApply);
+
+
 
 module.exports = router;
