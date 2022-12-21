@@ -93,9 +93,6 @@ class UserService {
 
     FindAllUserPosts = async (userId) => {
         const posts = await this.userRepository.FindAllUserPosts(userId);
-        if (posts == null || posts.length === 0) {
-            throw new InvalidParamsError('포스트를 찾을 수 없습니다.', 404);
-        }
 
         const postsApplicants = await Promise.all(
             posts.map(async (post) => {
@@ -125,9 +122,6 @@ class UserService {
 
     FindAllUserApply = async (userId) => {
         const posts = await this.userRepository.FindAllUserApply(userId);
-        if (posts == null || posts.length === 0) {
-            throw new InvalidParamsError('포스트를 찾을 수 없습니다.', 404);
-        }
 
         const postsApplicants = await Promise.all(
             posts.map(async (post) => {
@@ -181,13 +175,15 @@ class UserService {
         const condition =
             /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
+            console.log("service1")
+
         if (!condition.test(email)) {
             throw new ValidationError('email을 형식이 일치하지 않습니다.', 412);
         }
         if (password !== confirm) {
             throw new ValidationError('confirm을 확인해주세요.', 412);
         }
-
+        console.log("service2")
         return this.userRepository.createSignup(
             email,
             nickname,

@@ -33,7 +33,7 @@ class UserController {
 
     GetUser = async (req, res, next) => {
         try {
-            const { userId } = req.params;
+            const { userId } = res.locals;
 
             const user = await this.userService.FindUser(userId);
             res.json({
@@ -46,7 +46,7 @@ class UserController {
 
     UpdateUser = async (req, res, next) => {
         try {
-            const { userId } = req.params;
+            const { userId } = res.locals;
             const { description } = req.body;
 
             if (!userId) {
@@ -65,7 +65,7 @@ class UserController {
 
     FindAllUserPosts = async (req, res, next) => {
         try {
-            const { userId } = req.params;
+            const { userId } = res.locals;
 
             const posts = await this.userService.FindAllUserPosts(userId);
             res.json({
@@ -78,7 +78,7 @@ class UserController {
 
     FindAllUserApply = async (req, res, next) => {
         try {
-            const { userId } = req.params;
+            const { userId } = res.locals;
 
             const posts = await this.userService.FindAllUserApply(userId);
             res.json({
@@ -93,17 +93,15 @@ class UserController {
         try {
             const { email, nickname, password, confirm, description } =
                 req.body;
-
-            await this.userService.createSignup(
+            const user = await this.userService.createSignup(
                 email,
                 nickname,
                 password,
                 confirm,
                 description
             );
-
             console.log(`${nickname} 님이 가입하셨습니다.`);
-            res.status(201).send({ message: '회원 가입에 성공하였습니다.' });
+            res.status(201).json({ message: '회원 가입에 성공하였습니다.' });
         } catch (error) {
             next(error);
         }
@@ -114,8 +112,14 @@ class UserController {
             const queryData = url.parse(req.url, true).query;
 
             const { email, nickname } = queryData;
-
+            
             if (!email && !nickname) {
+                throw new AuthenticationError(
+                    '중복 검사에 실패하였습니다.',
+                    412
+                );
+            }
+            if (email == 'undefined'  && nickname == 'undefined' ) {
                 throw new AuthenticationError(
                     '중복 검사에 실패하였습니다.',
                     412
@@ -147,7 +151,7 @@ class UserController {
             return res
                 .header('token', accessToken)
                 .status(200)
-                .json({ token: accessToken });
+                .json({ userId : existUser.userId, nickname : existUser.nickname, token: accessToken });
         } catch (error) {
             next(error);
         }

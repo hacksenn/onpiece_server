@@ -7,10 +7,6 @@ const UserController = require('../controllers/user.controller');
 const userController = new UserController();
 
 //==================================
-//           스터디 통계
-//==================================
-router.get('/statics', userController.getPostsData);
-//==================================
 //           유저 목록
 //==================================
 router.get('/all', userController.GetUserAll);

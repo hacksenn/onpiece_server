@@ -38,9 +38,9 @@ class CommentService {
         return this.commentRepository.DeleteComment(commentId);
     };
     FindAllComment = async (postId) => {
-        const comments = await this.commentRepository.FindAllComment(postId);
+        let comments = await this.commentRepository.FindAllComment(postId);
         if (comments == null || comments.length === 0) {
-            throw new InvalidParamsError('댓글을 찾을 수 없습니다.', 404);
+            comments = []
         }
         return comments;
     };

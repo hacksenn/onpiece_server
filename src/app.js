@@ -1,6 +1,17 @@
 const express = require('express');
+
+const http = require('http')
+// const https = require('https')
+// const fs = require('fs')
+
+// const options = {
+//   ca : fs.readFileSync('src/ca_bundle.crt'),
+//   key : fs.readFileSync('src/private.key'),
+//   cert : fs.readFileSync('src/certificate.crt')
+// }
+
 const app = express();
-require('dotenv').config('');
+require('dotenv').config();
 
 const cors = require('cors')
 const corsOption = {
@@ -8,9 +19,6 @@ const corsOption = {
   withCredential : true
 }
 app.use(cors(corsOption))
-
-
-const port = process.env.PORT;
 
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
@@ -27,8 +35,12 @@ const ErrorHandler = require('./middleWares/error.handler.middleware');
 app.use(ErrorHandler);
 
 
-app.listen(port, () => {
-  console.log(port, '포트로 서버가 열렸어요!');
+http.createServer(app).listen(process.env.HTTP_PORT, () => {
+  console.log(process.env.HTTP_PORT, '포트로 http 서버가 열렸어요!');
 });
+// https.createServer(options, app).listen(process.env.HTTPS_PORT, () => {
+//   console.log(port, '포트로 https 서버가 열렸어요!');
+// });
+
 
 module.exports = app;
