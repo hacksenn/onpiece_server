@@ -33,7 +33,7 @@ class UserController {
 
     GetUser = async (req, res, next) => {
         try {
-            const { userId } = req.params;
+            const { userId } = res.locals;
 
             const user = await this.userService.FindUser(userId);
             res.json({
@@ -46,7 +46,7 @@ class UserController {
 
     UpdateUser = async (req, res, next) => {
         try {
-            const { userId } = req.params;
+            const { userId } = res.locals;
             const { description } = req.body;
 
             if (!userId) {
@@ -65,7 +65,7 @@ class UserController {
 
     FindAllUserPosts = async (req, res, next) => {
         try {
-            const { userId } = req.params;
+            const { userId } = res.locals;
 
             const posts = await this.userService.FindAllUserPosts(userId);
             res.json({
@@ -78,7 +78,7 @@ class UserController {
 
     FindAllUserApply = async (req, res, next) => {
         try {
-            const { userId } = req.params;
+            const { userId } = res.locals;
 
             const posts = await this.userService.FindAllUserApply(userId);
             res.json({
@@ -93,7 +93,6 @@ class UserController {
         try {
             const { email, nickname, password, confirm, description } =
                 req.body;
-            console.log("controller")
             await this.userService.createSignup(
                 email,
                 nickname,
