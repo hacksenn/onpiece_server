@@ -26,7 +26,7 @@ class UserRepository {
     };
 
     OldPosts = async () => {
-        const posts = Posts.findAll({
+        const posts = await Posts.findAll({
             raw: true,
             where: {
                 recruitmentEndDay: {
