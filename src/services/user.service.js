@@ -93,9 +93,6 @@ class UserService {
 
     FindAllUserPosts = async (userId) => {
         const posts = await this.userRepository.FindAllUserPosts(userId);
-        if (posts == null || posts.length === 0) {
-            throw new InvalidParamsError('포스트를 찾을 수 없습니다.', 404);
-        }
 
         const postsApplicants = await Promise.all(
             posts.map(async (post) => {
@@ -125,9 +122,6 @@ class UserService {
 
     FindAllUserApply = async (userId) => {
         const posts = await this.userRepository.FindAllUserApply(userId);
-        if (posts == null || posts.length === 0) {
-            throw new InvalidParamsError('포스트를 찾을 수 없습니다.', 404);
-        }
 
         const postsApplicants = await Promise.all(
             posts.map(async (post) => {
