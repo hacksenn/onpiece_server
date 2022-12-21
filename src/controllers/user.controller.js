@@ -101,7 +101,7 @@ class UserController {
                 description
             );
             console.log(`${nickname} 님이 가입하셨습니다.`);
-            res.status(201).json({ userId : user.userId , nickname : user.nickname });
+            res.status(201).json({ message: '회원 가입에 성공하였습니다.' });
         } catch (error) {
             next(error);
         }
@@ -151,7 +151,7 @@ class UserController {
             return res
                 .header('token', accessToken)
                 .status(200)
-                .json({ token: accessToken });
+                .json({ userId : existUser.userId, nickname : existUser.nickname, token: accessToken });
         } catch (error) {
             next(error);
         }
