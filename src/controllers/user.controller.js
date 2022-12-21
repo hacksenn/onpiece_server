@@ -1,11 +1,24 @@
-const { ValidationError, AuthenticationError, ExistError } = require('../middleWares/exceptions/error.class');
-const url = require("url");
+const {
+    ValidationError,
+    AuthenticationError,
+    ExistError,
+} = require('../middleWares/exceptions/error.class');
+const url = require('url');
 require('dotenv').config({ path: '../.env' });
 
 const UserService = require('../services/user.service');
 
 class UserController {
     userService = new UserService();
+
+    getPostsData = async (req, res, next) => {
+        try {
+            const PostsData = await this.userService.PostsData();
+            res.json({ data: PostsData });
+        } catch (error) {
+            next(error);
+        }
+    };
 
     GetUserAll = async (req, res, next) => {
         try {
@@ -78,7 +91,8 @@ class UserController {
 
     createSignup = async (req, res, next) => {
         try {
-            const { email, nickname, password, confirm, description } = req.body;
+            const { email, nickname, password, confirm, description } =
+                req.body;
 
             await this.userService.createSignup(
                 email,
@@ -89,9 +103,9 @@ class UserController {
             );
 
             console.log(`${nickname} 님이 가입하셨습니다.`);
-            res.status(201).send({ message: "회원 가입에 성공하였습니다." });
+            res.status(201).send({ message: '회원 가입에 성공하였습니다.' });
         } catch (error) {
-            next(error)
+            next(error);
         }
     };
 
@@ -99,23 +113,21 @@ class UserController {
         try {
             const queryData = url.parse(req.url, true).query;
 
-            const { email, nickname } = queryData
+            const { email, nickname } = queryData;
 
-            if(!email && !nickname){
+            if (!email && !nickname) {
                 throw new AuthenticationError(
-                    '중복 검사에 실패하였습니다.', 412
-                )
+                    '중복 검사에 실패하였습니다.',
+                    412
+                );
             }
 
-            await this.userService.checkUser(
-                email,
-                nickname
-            );
-            res.status(200).json({ msg: '중복검사가 완료되었습니다.' })
+            await this.userService.checkUser(email, nickname);
+            res.status(200).json({ msg: '중복검사가 완료되었습니다.' });
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
+    };
 
     Login = async (req, res, next) => {
         try {
@@ -123,19 +135,23 @@ class UserController {
 
             if (!email || !password) {
                 throw new ExistError(
-                    '이메일 혹은 패스워드를 다시 입력해주세요', 404
-                )
+                    '이메일 혹은 패스워드를 다시 입력해주세요',
+                    404
+                );
             }
             const existUser = await this.userService.existUser(email, password);
-            const accessToken = this.userService.createAccessToken(existUser.userId);
+            const accessToken = this.userService.createAccessToken(
+                existUser.userId
+            );
 
-            return res.header('token', accessToken).status(200).json({ token: accessToken });
+            return res
+                .header('token', accessToken)
+                .status(200)
+                .json({ token: accessToken });
         } catch (error) {
             next(error);
         }
     };
-
 }
-
 
 module.exports = UserController;

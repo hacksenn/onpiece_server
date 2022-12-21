@@ -1,5 +1,9 @@
 const UserRepository = require('../repositories/user.repository');
-const { InvalidParamsError, ExistError, ValidationError } = require('../middleWares/exceptions/error.class');
+const {
+    InvalidParamsError,
+    ExistError,
+    ValidationError,
+} = require('../middleWares/exceptions/error.class');
 
 require('dotenv').config();
 const crypto = require('crypto');
@@ -7,6 +11,58 @@ const jwt = require('jsonwebtoken');
 
 class UserService {
     userRepository = new UserRepository();
+
+    PostsData = async () => {
+        let posts = await this.userRepository.FindPosts();
+        const oldPosts = await this.userRepository.OldPosts();
+        const postsData = [];
+        const allPosts = posts.length;
+        if (posts.length < 4) {
+            posts = posts.map((post) => {
+                return {
+                    postId: post.postId,
+                    userId: post.userId,
+                    nickname: post.User.nickname,
+                    title: post.title,
+                    content: post.content,
+                    category: post.category.split(','),
+                    level: post.level,
+                    headCount: post.headCount,
+                    recruitmentEndDay: post.recruitmentEndDay,
+                    startTime: post.startTime,
+                    endTime: post.endTime,
+                    startDay: post.startDay,
+                    endDay: post.endDay,
+                    applicants: post.Applicants.map((applicant) => {
+                        return applicant.userId;
+                    }),
+                };
+            });
+            return { posts, allPosts, oldPosts };
+        }
+        for (let i = 0; i < 4; i++) {
+            const post = {
+                postId: posts[i].postId,
+                userId: posts[i].userId,
+                nickname: posts[i].User.nickname,
+                title: posts[i].title,
+                content: posts[i].content,
+                category: posts[i].category.split(','),
+                level: posts[i].level,
+                headCount: posts[i].headCount,
+                recruitmentEndDay: posts[i].recruitmentEndDay,
+                startTime: posts[i].startTime,
+                endTime: posts[i].endTime,
+                startDay: posts[i].startDay,
+                endDay: posts[i].endDay,
+                applicants: posts[i].Applicants.map((applicant) => {
+                    return applicant.userId;
+                }),
+            };
+            postsData.push(post);
+        }
+        return { postsData, allPosts, oldPosts };
+    };
 
     FindUserAll = async () => {
         const users = await this.userRepository.FindAllUser();
@@ -44,14 +100,15 @@ class UserService {
         const postsApplicants = await Promise.all(
             posts.map(async (post) => {
                 const postId = post.postId;
-                const postApplicants = await this.userRepository.FindAllPostApply(postId);
+                const postApplicants =
+                    await this.userRepository.FindAllPostApply(postId);
                 return {
                     postId: post.postId,
                     userId: post.userId,
                     nickname: post['User.nickname'],
                     title: post.title,
                     content: post.content,
-                    category: (post.category).split(','),
+                    category: post.category.split(','),
                     level: post.level,
                     headCount: post.headCount,
                     recruitmentEndDay: post.recruitmentEndDay,
@@ -63,7 +120,7 @@ class UserService {
                 };
             })
         );
-        return postsApplicants
+        return postsApplicants;
     };
 
     FindAllUserApply = async (userId) => {
@@ -75,14 +132,15 @@ class UserService {
         const postsApplicants = await Promise.all(
             posts.map(async (post) => {
                 const postId = post.postId;
-                const postApplicants = await this.userRepository.FindAllPostApply(postId);
+                const postApplicants =
+                    await this.userRepository.FindAllPostApply(postId);
                 return {
                     postId: post.postId,
                     userId: post.userId,
                     nickname: post['User.nickname'],
                     title: post['Post.title'],
                     content: post['Post.content'],
-                    category: (post['Post.category']).split(','),
+                    category: post['Post.category'].split(','),
                     level: post['Post.level'],
                     headCount: post['Post.headCount'],
                     recruitmentEndDay: post['Post.recruitmentEndDay'],
@@ -94,7 +152,7 @@ class UserService {
                 };
             })
         );
-        return postsApplicants
+        return postsApplicants;
     };
 
     existUser = async (email, password) => {
@@ -103,40 +161,31 @@ class UserService {
             .update(password)
             .digest(process.env.INCOD);
 
-        password = secretPW
+        password = secretPW;
 
-        const existUser = await this.userRepository.existUser(email, password)
+        const existUser = await this.userRepository.existUser(email, password);
 
         if (!existUser || existUser.length === 0) {
-            throw new ExistError(
-                '로그인 정보를 다시 확인해주세요.', 412
-            )
+            throw new ExistError('로그인 정보를 다시 확인해주세요.', 412);
         }
         return existUser;
-    }
-
-    createAccessToken = (userId) => {
-        return jwt.sign(
-            { userId },
-            process.env.SECRET_KEY,
-            { expiresIn: "60m" }
-        );
     };
 
-    createSignup = async (
-        email, nickname, password, confirm, description
-    ) => {
-        const condition = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    createAccessToken = (userId) => {
+        return jwt.sign({ userId }, process.env.SECRET_KEY, {
+            expiresIn: '60m',
+        });
+    };
+
+    createSignup = async (email, nickname, password, confirm, description) => {
+        const condition =
+            /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
         if (!condition.test(email)) {
-            throw new ValidationError(
-                'email을 형식이 일치하지 않습니다.', 412
-            )
-        };
+            throw new ValidationError('email을 형식이 일치하지 않습니다.', 412);
+        }
         if (password !== confirm) {
-            throw new ValidationError(
-                'confirm을 확인해주세요.', 412
-            )
+            throw new ValidationError('confirm을 확인해주세요.', 412);
         }
 
         return this.userRepository.createSignup(
@@ -145,17 +194,13 @@ class UserService {
             password,
             description
         );
-
-
     };
 
-    checkUser = async (
-        email, nickname
-    ) => {
+    checkUser = async (email, nickname) => {
         await this.userRepository.checkEmail(email);
         await this.userRepository.checkNickname(nickname);
-        return
-    }
+        return;
+    };
 }
 
 module.exports = UserService;
