@@ -43,6 +43,7 @@ class UserRepository {
             attributes: ['userId', 'email', 'nickname', 'description'],
         });
     };
+
     FindOneUser = async (userId) => {
         return Users.findOne({
             raw: true,
@@ -50,6 +51,7 @@ class UserRepository {
             attributes: ['userId', 'email', 'nickname', 'description'],
         });
     };
+    
     UpdateUser = async (userId, description) => {
         return Users.update({ description }, { where: { userId } });
     };
@@ -127,7 +129,7 @@ class UserRepository {
             .createHash(process.env.PW_KEY)
             .update(password)
             .digest(process.env.INCOD);
-
+        console.log("repo : ",email, nickname, password, description)
         password = secretPW;
 
         return Users.create({ email, nickname, password, description });
@@ -146,6 +148,7 @@ class UserRepository {
         }
         return;
     };
+
     checkNickname = async (nickname) => {
         // findAll로 찾은게 isExistUser의 길이가 0이면, 중복검사 통과
         // 길이가 1 이상이면, 중복으로 에러날림
@@ -159,6 +162,7 @@ class UserRepository {
         }
         return;
     };
+
 }
 
 module.exports = UserRepository;

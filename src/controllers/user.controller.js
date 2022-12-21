@@ -93,7 +93,7 @@ class UserController {
         try {
             const { email, nickname, password, confirm, description } =
                 req.body;
-
+            console.log("controller")
             await this.userService.createSignup(
                 email,
                 nickname,
@@ -114,8 +114,14 @@ class UserController {
             const queryData = url.parse(req.url, true).query;
 
             const { email, nickname } = queryData;
-
+            
             if (!email && !nickname) {
+                throw new AuthenticationError(
+                    '중복 검사에 실패하였습니다.',
+                    412
+                );
+            }
+            if (email == 'undefined'  && nickname == 'undefined' ) {
                 throw new AuthenticationError(
                     '중복 검사에 실패하였습니다.',
                     412
