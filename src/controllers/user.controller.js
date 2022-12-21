@@ -13,8 +13,8 @@ class UserController {
 
     getPostsData = async (req, res, next) => {
         try {
-            const PostsData = await this.userService.PostsData();
-            res.json({ data: PostsData });
+            const Posts = await this.userService.PostsData();
+            res.json({ data: Posts });
         } catch (error) {
             next(error);
         }

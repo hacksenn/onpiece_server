@@ -13,12 +13,12 @@ class UserService {
     userRepository = new UserRepository();
 
     PostsData = async () => {
-        let posts = await this.userRepository.FindPosts();
-        const oldPosts = await this.userRepository.OldPosts();
-        const postsData = [];
-        const allPosts = posts.length;
-        if (posts.length < 4) {
-            posts = posts.map((post) => {
+        let postsData = await this.userRepository.FindPosts();
+        const completedPostsCount = await this.userRepository.OldPosts();
+        const posts = [];
+        const totalPostsCount = postsData.length;
+        if (postsData.length < 4) {
+            postsData = postsData.map((post) => {
                 return {
                     postId: post.postId,
                     userId: post.userId,
@@ -38,30 +38,30 @@ class UserService {
                     }),
                 };
             });
-            return { posts, allPosts, oldPosts };
+            return { posts, totalPostsCount, completedPostsCount };
         }
         for (let i = 0; i < 4; i++) {
             const post = {
-                postId: posts[i].postId,
-                userId: posts[i].userId,
-                nickname: posts[i].User.nickname,
-                title: posts[i].title,
-                content: posts[i].content,
-                category: posts[i].category.split(','),
-                level: posts[i].level,
-                headCount: posts[i].headCount,
-                recruitmentEndDay: posts[i].recruitmentEndDay,
-                startTime: posts[i].startTime,
-                endTime: posts[i].endTime,
-                startDay: posts[i].startDay,
-                endDay: posts[i].endDay,
-                applicants: posts[i].Applicants.map((applicant) => {
+                postId: postsData[i].postId,
+                userId: postsData[i].userId,
+                nickname: postsData[i].User.nickname,
+                title: postsData[i].title,
+                content: postsData[i].content,
+                category: postsData[i].category.split(','),
+                level: postsData[i].level,
+                headCount: postsData[i].headCount,
+                recruitmentEndDay: postsData[i].recruitmentEndDay,
+                startTime: postsData[i].startTime,
+                endTime: postsData[i].endTime,
+                startDay: postsData[i].startDay,
+                endDay: postsData[i].endDay,
+                applicants: postsData[i].Applicants.map((applicant) => {
                     return applicant.userId;
                 }),
             };
-            postsData.push(post);
+            posts.push(post);
         }
-        return { postsData, allPosts, oldPosts };
+        return { posts, totalPostsCount, completedPostsCount };
     };
 
     FindUserAll = async () => {
