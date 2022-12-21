@@ -93,16 +93,15 @@ class UserController {
         try {
             const { email, nickname, password, confirm, description } =
                 req.body;
-            await this.userService.createSignup(
+            const user = await this.userService.createSignup(
                 email,
                 nickname,
                 password,
                 confirm,
                 description
             );
-
             console.log(`${nickname} 님이 가입하셨습니다.`);
-            res.status(201).send({ message: '회원 가입에 성공하였습니다.' });
+            res.status(201).json({ userId : user.userId , nickname : user.nickname });
         } catch (error) {
             next(error);
         }
