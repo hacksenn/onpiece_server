@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
             },
             recruitmentEndDay: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.BIGINT,
                 allowNull: false,
             },
             startTime: {
