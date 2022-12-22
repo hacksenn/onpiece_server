@@ -121,6 +121,7 @@ class PostRepository {
         startDay,
         endDay
     ) => {
+        console.log("repo : ", recruitmentEndDay)
         const updatePost = await this.PostsModel.update(
             {
                 title,
@@ -136,7 +137,6 @@ class PostRepository {
             },
             { where: { userId, postId } }
         );
-        console.log(updatePost);
         return updatePost;
     };
 

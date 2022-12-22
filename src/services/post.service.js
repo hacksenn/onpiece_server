@@ -139,6 +139,7 @@ class PostService {
         const findPost = await this.postRepository.findPostById(postId);
         if (!findPost) throw new ValidationError('존재하지 않는 게시글입니다.');
 
+        console.log("service : ", recruitmentEndDay)
         const updatePost = await this.postRepository.updatePost(
             userId,
             postId,

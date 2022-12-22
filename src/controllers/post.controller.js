@@ -21,7 +21,6 @@ class PostController {
             } = req.body;
             const categoryArray = req.body.category;
             const { userId } = res.locals;
-            console.log(recruitmentEndDay)
 
             const category = categoryArray.toString();
             if (
@@ -111,6 +110,8 @@ class PostController {
                 startDay,
                 endDay,
             } = req.body;
+
+            console.log(recruitmentEndDay)
             
             const category = categoryArray.toString();
             if (
@@ -142,6 +143,7 @@ class PostController {
                 startDay,
                 endDay
             );
+            console.log(updatedPost.recruitmentEndDay)
             res.status(200).json({ updatedPost: updatedPost });
         } catch (error) {
             next(error);
