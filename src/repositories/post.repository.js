@@ -41,7 +41,7 @@ class PostRepository {
         const allPost = await this.PostsModel.findAll({
             where: {
                 recruitmentEndDay: {
-                    [Op.gt]: new Date().getTime(),
+                    [Op.gt]: Math.round(new Date() / 1000),
                 },
             },
             include: [
