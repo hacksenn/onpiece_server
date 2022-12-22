@@ -21,6 +21,7 @@ class PostController {
             } = req.body;
             const categoryArray = req.body.category;
             const { userId } = res.locals;
+            console.log(recruitmentEndDay)
 
             const category = categoryArray.toString();
             if (
@@ -79,6 +80,8 @@ class PostController {
                 userId,
                 postId
             );
+
+            console.log(post.recruitmentEndDay)
 
             const applicants = await this.postService.findApplicants(postId);
             res.status(200).json({

@@ -21,7 +21,7 @@ class PostRepository {
         startDay,
         endDay
     ) => {
-        console.log(userId)
+        console.log(recruitmentEndDay)
         const createPost = await this.PostsModel.create({
             userId,
             title,
@@ -153,6 +153,8 @@ class PostRepository {
         const existPost = await this.PostsModel.findOne({
             where: { postId },
         });
+
+        console.log(existPost.recruitmentEndDay)
 
         return existPost;
     };
