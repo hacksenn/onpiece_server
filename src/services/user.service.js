@@ -128,12 +128,10 @@ class UserService {
                 const postId = post.postId;
                 const postApplicants =
                     await this.userRepository.FindAllPostApply(postId);
-
-                console.log(postApplicants);
                 return {
                     postId: post.postId,
                     userId: post['Post.userId'],
-                    nickname: post['Post.nickname'],
+                    nickname: post['Post.User.nickname'],
                     title: post['Post.title'],
                     content: post['Post.content'],
                     category: post['Post.category'].split(','),
