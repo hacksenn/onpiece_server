@@ -21,8 +21,6 @@ class PostController {
             } = req.body;
             const categoryArray = req.body.category;
             const { userId } = res.locals;
-
-            console.log("바디 값 : ", recruitmentEndDay)
             const category = categoryArray.toString();
             if (
                 !title ||
@@ -51,7 +49,6 @@ class PostController {
                 startDay,
                 endDay
             );
-            console.log("저장된 값 : ",recruitmentEndDay)
             res.status(201).json({ createdPost: createdPost });
         } catch (error) {
             next(error);
@@ -82,8 +79,6 @@ class PostController {
                 postId
             );
 
-            console.log("상세 보기의 시간 : ",post.recruitmentEndDay)
-
             const applicants = await this.postService.findApplicants(postId);
             res.status(200).json({
                 post: post,
@@ -112,8 +107,6 @@ class PostController {
                 startDay,
                 endDay,
             } = req.body;
-
-            console.log(recruitmentEndDay)
             
             const category = categoryArray.toString();
             if (
@@ -131,7 +124,7 @@ class PostController {
                 throw new InvalidParamsError();
             }
 
-            const updatedPost = await this.postService.updatePost(
+            await this.postService.updatePost(
                 userId,
                 postId,
                 title,
@@ -145,7 +138,8 @@ class PostController {
                 startDay,
                 endDay
             );
-            console.log(updatedPost.recruitmentEndDay)
+
+            const updatedPost = await this.postService.findPostById(postId)
             res.status(200).json({ updatedPost: updatedPost });
         } catch (error) {
             next(error);

@@ -77,7 +77,6 @@ class PostRepository {
                 },
             ],
         });
-        console.log("레포의 시간 : ",findPost.recruitmentEndDay)
         return findPost;
     };
 
@@ -122,7 +121,6 @@ class PostRepository {
         startDay,
         endDay
     ) => {
-        console.log("repo : ", recruitmentEndDay)
         const updatePost = await this.PostsModel.update(
             {
                 title,
@@ -154,7 +152,6 @@ class PostRepository {
             where: { postId },
         });
 
-        console.log(existPost.recruitmentEndDay)
 
         return existPost;
     };

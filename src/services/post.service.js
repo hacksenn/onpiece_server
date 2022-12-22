@@ -18,7 +18,6 @@ class PostService {
         startDay,
         endDay
     ) => {
-        console.log("서비스 입구 : ",recruitmentEndDay)
         const createPost = await this.postRepository.createPost(
             userId,
             title,
@@ -32,7 +31,6 @@ class PostService {
             startDay,
             endDay
         );
-        console.log("서비스 에서 : ",createPost.recruitmentEndDay)
         if (!createPost)
             throw ValidationError('게시글 작성에 실패하였습니다.', 400);
         return createPost;
@@ -43,7 +41,6 @@ class PostService {
         if (!allPost) {
             throw ValidationError('게시글 조회에 실패하였습니다.', 400);
         }
-        console.log(allPost);
         return allPost.map((post) => {
             return {
                 postId: post.postId,
@@ -69,7 +66,6 @@ class PostService {
     findPostById = async (postId) => {
         const findPost = await this.postRepository.findPostById(postId);
 
-        console.log("서비스의 시간 : ",findPost.recruitmentEndDay)
         if (!findPost)
             throw new ValidationError('게시글 조회에 실패하였습니다.', 400);
         return {
@@ -140,7 +136,6 @@ class PostService {
         const findPost = await this.postRepository.findPostById(postId);
         if (!findPost) throw new ValidationError('존재하지 않는 게시글입니다.');
 
-        console.log("service : ", recruitmentEndDay)
         const updatePost = await this.postRepository.updatePost(
             userId,
             postId,
