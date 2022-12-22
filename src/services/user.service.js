@@ -130,7 +130,7 @@ class UserService {
                     await this.userRepository.FindAllPostApply(postId);
                 return {
                     postId: post.postId,
-                    userId: post.['Post.userId'],
+                    userId: post['Post.userId'],
                     nickname: post['User.nickname'],
                     title: post['Post.title'],
                     content: post['Post.content'],
