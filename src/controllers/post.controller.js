@@ -36,7 +36,7 @@ class PostController {
             ) {
                 throw new InvalidParamsError();
             }
-            const createdPost = await this.postService.createPost(
+            const post = await this.postService.createPost(
                 userId,
                 title,
                 content,
@@ -49,6 +49,7 @@ class PostController {
                 startDay,
                 endDay
             );
+            const createdPost = await this.postService.findPostById(post.postId)
             res.status(201).json({ createdPost: createdPost });
         } catch (error) {
             next(error);
