@@ -87,8 +87,9 @@ class PostService {
     };
 
     findExPostsById = async (userId, postId) => {
+        console.log("service : ", typeof userId, typeof postId)
         const findExPosts = await this.postRepository.findExPostsById(userId);
-
+        console.log("ser findExPosts : ", findExPosts)
         if (!findExPosts) {
             return;
         }

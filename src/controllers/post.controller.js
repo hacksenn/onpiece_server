@@ -71,14 +71,15 @@ class PostController {
     getPostById = async (req, res, next) => {
         try {
             const { postId } = req.params;
-            const { userId } = res.locals;
             if (!postId) throw new InvalidParamsError();
             const post = await this.postService.findPostById(postId);
 
             const exPosts = await this.postService.findExPostsById(
-                userId,
+                post.userId,
                 postId
             );
+
+            console.log("con : ",exPosts)
 
             const applicants = await this.postService.findApplicants(postId);
             res.status(200).json({

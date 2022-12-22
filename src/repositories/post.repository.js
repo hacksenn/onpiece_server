@@ -81,13 +81,16 @@ class PostRepository {
     };
 
     findExPostsById = async (userId) => {
+        console.log( "repo : ", userId)
         const exPosts = await this.PostsModel.findAll({
+            raw: true,
             where: {
                 userId,
             },
             attributes: ['postId', 'title'],
             order: [['createdAt', 'DESC']],
         });
+        console.log("repo ex : ", exPosts)
         return exPosts;
     };
 
