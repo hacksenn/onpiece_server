@@ -41,7 +41,6 @@ class PostService {
         if (!allPost) {
             throw ValidationError('게시글 조회에 실패하였습니다.', 400);
         }
-        console.log(allPost);
         return allPost.map((post) => {
             return {
                 postId: post.postId,
@@ -89,7 +88,6 @@ class PostService {
 
     findExPostsById = async (userId, postId) => {
         const findExPosts = await this.postRepository.findExPostsById(userId);
-
         if (!findExPosts) {
             return;
         }

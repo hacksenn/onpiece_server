@@ -21,7 +21,6 @@ class PostController {
             } = req.body;
             const categoryArray = req.body.category;
             const { userId } = res.locals;
-
             const category = categoryArray.toString();
             if (
                 !title ||
@@ -37,7 +36,7 @@ class PostController {
             ) {
                 throw new InvalidParamsError();
             }
-            const createdPost = await this.postService.createPost(
+            const post = await this.postService.createPost(
                 userId,
                 title,
                 content,
@@ -50,6 +49,7 @@ class PostController {
                 startDay,
                 endDay
             );
+            const createdPost = await this.postService.findPostById(post.postId)
             res.status(201).json({ createdPost: createdPost });
         } catch (error) {
             next(error);
@@ -71,12 +71,11 @@ class PostController {
     getPostById = async (req, res, next) => {
         try {
             const { postId } = req.params;
-            const { userId } = res.locals;
             if (!postId) throw new InvalidParamsError();
             const post = await this.postService.findPostById(postId);
 
             const exPosts = await this.postService.findExPostsById(
-                userId,
+                post.userId,
                 postId
             );
 
@@ -125,7 +124,7 @@ class PostController {
                 throw new InvalidParamsError();
             }
 
-            const updatedPost = await this.postService.updatePost(
+            await this.postService.updatePost(
                 userId,
                 postId,
                 title,
@@ -139,6 +138,8 @@ class PostController {
                 startDay,
                 endDay
             );
+
+            const updatedPost = await this.postService.findPostById(postId)
             res.status(200).json({ updatedPost: updatedPost });
         } catch (error) {
             next(error);

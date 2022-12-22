@@ -21,7 +21,6 @@ class PostRepository {
         startDay,
         endDay
     ) => {
-        console.log(userId);
         const createPost = await this.PostsModel.create({
             userId,
             title,
@@ -83,6 +82,7 @@ class PostRepository {
 
     findExPostsById = async (userId) => {
         const exPosts = await this.PostsModel.findAll({
+            raw: true,
             where: {
                 userId,
             },
@@ -137,7 +137,6 @@ class PostRepository {
             },
             { where: { userId, postId } }
         );
-        console.log(updatePost);
         return updatePost;
     };
 
@@ -153,6 +152,7 @@ class PostRepository {
         const existPost = await this.PostsModel.findOne({
             where: { postId },
         });
+
 
         return existPost;
     };

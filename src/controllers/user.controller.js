@@ -52,8 +52,8 @@ class UserController {
             if (!userId) {
                 throw new ValidationError('유저 권한이 없습니다.', 401);
             }
-            if (!description) {
-                throw new ValidationError('소개글을 작성 해주세요.', 412);
+            if (description == 'undefined') {
+                throw new ValidationError('소개글 형식을 확인 해주세요.', 412);
             }
 
             await this.userService.UpdateUser(userId, description);
