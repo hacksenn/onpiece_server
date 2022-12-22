@@ -21,11 +21,6 @@ class PostRepository {
         startDay,
         endDay
     ) => {
-<<<<<<< HEAD
-        console.log(recruitmentEndDay)
-=======
-        console.log(userId);
->>>>>>> 102a37660909b5e590361ac9438a568c0e5c85e6
         const createPost = await this.PostsModel.create({
             userId,
             title,
