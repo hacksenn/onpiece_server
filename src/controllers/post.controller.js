@@ -22,6 +22,7 @@ class PostController {
             const categoryArray = req.body.category;
             const { userId } = res.locals;
 
+            console.log("바디 값 : ", recruitmentEndDay)
             const category = categoryArray.toString();
             if (
                 !title ||
@@ -50,6 +51,7 @@ class PostController {
                 startDay,
                 endDay
             );
+            console.log("저장된 값 : ",recruitmentEndDay)
             res.status(201).json({ createdPost: createdPost });
         } catch (error) {
             next(error);

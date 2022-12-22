@@ -18,7 +18,7 @@ class PostService {
         startDay,
         endDay
     ) => {
-        console.log(recruitmentEndDay)
+        console.log("서비스 입구 : ",recruitmentEndDay)
         const createPost = await this.postRepository.createPost(
             userId,
             title,
@@ -32,7 +32,7 @@ class PostService {
             startDay,
             endDay
         );
-        console.log(createPost.recruitmentEndDay)
+        console.log("서비스 에서 : ",createPost.recruitmentEndDay)
         if (!createPost)
             throw ValidationError('게시글 작성에 실패하였습니다.', 400);
         return createPost;
