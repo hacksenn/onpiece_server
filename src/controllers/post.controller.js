@@ -79,8 +79,6 @@ class PostController {
                 postId
             );
 
-            console.log("con : ",exPosts)
-
             const applicants = await this.postService.findApplicants(postId);
             res.status(200).json({
                 post: post,
