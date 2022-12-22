@@ -1,8 +1,24 @@
 const express = require('express');
-const app = express();
-require('dotenv').config('');
 
-const port = process.env.PORT;
+const http = require('http')
+// const https = require('https')
+// const fs = require('fs')
+
+// const options = {
+//   ca : fs.readFileSync('src/ca_bundle.crt'),
+//   key : fs.readFileSync('src/private.key'),
+//   cert : fs.readFileSync('src/certificate.crt')
+// }
+
+const app = express();
+require('dotenv').config();
+
+const cors = require('cors')
+const corsOption = {
+  origin : true,
+  withCredential : true
+}
+app.use(cors(corsOption))
 
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
@@ -10,9 +26,21 @@ app.use(express.json());
 
 app.use('/api', require('./routes/index'));
 
-app.use(ErrorHandler, require('./middleWares/error.handler.middleware'))
-
-
-app.listen(port, () => {
-  console.log(port, '포트로 서버가 열렸어요!');
+//메인화면 설정
+app.get("/", (req, res) => {
+  res.send("안녕하세요, 항해99 10기 E반 3조 BE 김혜란, 김혁찬, 노연수 입니다.");
 });
+
+const ErrorHandler = require('./middleWares/error.handler.middleware');
+app.use(ErrorHandler);
+
+
+http.createServer(app).listen(process.env.HTTP_PORT, () => {
+  console.log(process.env.HTTP_PORT, '포트로 http 서버가 열렸어요!');
+});
+// https.createServer(options, app).listen(process.env.HTTPS_PORT, () => {
+//   console.log(port, '포트로 https 서버가 열렸어요!');
+// });
+
+
+module.exports = app;
