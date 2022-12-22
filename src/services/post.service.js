@@ -69,6 +69,7 @@ class PostService {
     findPostById = async (postId) => {
         const findPost = await this.postRepository.findPostById(postId);
 
+        console.log("서비스의 시간 : ",findPost.recruitmentEndDay)
         if (!findPost)
             throw new ValidationError('게시글 조회에 실패하였습니다.', 400);
         return {

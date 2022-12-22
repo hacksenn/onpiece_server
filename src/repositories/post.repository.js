@@ -77,6 +77,7 @@ class PostRepository {
                 },
             ],
         });
+        console.log("레포의 시간 : ",findPost.recruitmentEndDay)
         return findPost;
     };
 

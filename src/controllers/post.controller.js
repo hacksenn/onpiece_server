@@ -82,7 +82,7 @@ class PostController {
                 postId
             );
 
-            console.log(post.recruitmentEndDay)
+            console.log("상세 보기의 시간 : ",post.recruitmentEndDay)
 
             const applicants = await this.postService.findApplicants(postId);
             res.status(200).json({
