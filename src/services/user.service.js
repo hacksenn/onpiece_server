@@ -130,8 +130,8 @@ class UserService {
                     await this.userRepository.FindAllPostApply(postId);
                 return {
                     postId: post.postId,
-                    userId: post.userId,
-                    nickname: post['User.nickname'],
+                    userId: post['Post.userId'],
+                    nickname: post['Post.User.nickname'],
                     title: post['Post.title'],
                     content: post['Post.content'],
                     category: post['Post.category'].split(','),
@@ -175,7 +175,7 @@ class UserService {
         const condition =
             /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
-            console.log("service1")
+        console.log('service1');
 
         if (!condition.test(email)) {
             throw new ValidationError('email을 형식이 일치하지 않습니다.', 412);
@@ -183,7 +183,7 @@ class UserService {
         if (password !== confirm) {
             throw new ValidationError('confirm을 확인해주세요.', 412);
         }
-        console.log("service2")
+        console.log('service2');
         return this.userRepository.createSignup(
             email,
             nickname,

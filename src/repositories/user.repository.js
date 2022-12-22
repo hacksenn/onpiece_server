@@ -106,11 +106,11 @@ class UserRepository {
             include: [
                 {
                     model: Posts,
-                },
-                {
-                    model: Users,
-                    attributes: ['nickname'],
-                },
+                    include : {
+                        model: Users,
+                        attributes: ['nickname'],
+                    }
+                }
             ],
             order: [['createdAt', 'DESC']],
         });
