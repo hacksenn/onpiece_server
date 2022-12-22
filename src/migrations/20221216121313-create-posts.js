@@ -42,7 +42,7 @@ module.exports = {
                 allowNull: false,
             },
             recruitmentEndDay: {
-                type: Sequelize.DataTypes.INTEGER,
+                type: Sequelize.DataTypes.BIGINT,
                 allowNull: false,
             },
             startTime: {
